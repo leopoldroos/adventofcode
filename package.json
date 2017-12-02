@@ -1,0 +1,33 @@
+{
+  "name": "adventofcode",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "./scripts/build-js.sh",
+    "test": "./scripts/test",
+    "watch": "NODE_PATH=app/assets/javascripts/ watchify app/assets/javascripts/app.js -t [ babelify ] -o app/assets/javascripts/bundles/app.js -v"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leopoldroos/adventofcode.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leopoldroos/adventofcode/issues"
+  },
+  "homepage": "https://github.com/leopoldroos/adventofcode#readme",
+  "dependencies": {
+    "babel-core": "^6.26.0",
+    "babelify": "^8.0.0",
+    "browserify": "^14.5.0",
+    "envify": "^4.1.0",
+    "express": "^4.16.2",
+    "uglify-js": "^3.2.0"
+  },
+  "devDependencies": {
+    "bundle-collapser": "^1.3.0",
+    "uglifyjs": "^2.4.11"
+  }
+}
