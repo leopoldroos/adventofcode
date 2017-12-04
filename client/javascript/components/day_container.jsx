@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Day1 from 'components/days/1.jsx'
-// import Day2 from 'components/days/2.jsx'
+import Day2 from 'components/days/2.jsx'
 // import Day3 from 'components/days/3.jsx'
 // import Day4 from 'components/days/4.jsx'
 // import Day5 from 'components/days/5.jsx'
@@ -31,6 +31,8 @@ export default class DayContainer extends Component {
     switch (day) {
       case 1:
         return <Day1 />
+      case 2:
+        return <Day2 />
       default:
         return <div>{`No matching day (${day})`}</div>
     }

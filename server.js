@@ -17,6 +17,17 @@ app.listen(3000, () => {
   console.log('Express is listening to http://localhost:3000')
 })
 
+app.get('/files/:filename', (req, res) => {
+  fs.readFile(path.resolve(__dirname, './', `server/files/${req.params.filename}`), {encoding: 'utf-8'}, (err, data) => {
+    if (err) {
+      console.log('path.resolve error: ', err)
+      res.send(500)
+    } else {
+      res.send(data)
+    }
+  })
+})
+
 app.get('*', (req, res) => {
   console.log('Serving request: ', req.url)
   // res.setHeader('Cache-Control', 'public, max-age=120')
