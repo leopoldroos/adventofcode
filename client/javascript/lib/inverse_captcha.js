@@ -1,9 +1,9 @@
-export default (input) => {
+export default (input, offset = 1) => {
   let data = input
   let output = 0
   for (let i = 0; i < input.length; i++) {
-    if (data[i] === data[i + 1]) output += parseInt(data[i], 10)
+    let offsetIndex = (i + offset) % input.length
+    if (data[i] === data[offsetIndex]) output += parseInt(data[i], 10)
   }
-  if (data[0] === data[input.length - 1]) output += parseInt(data[0], 10)
   return output
 }
