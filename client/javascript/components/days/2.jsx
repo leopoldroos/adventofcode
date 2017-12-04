@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import checksum from 'lib/checksum'
+import {maxMin as checksumByMaxMin, evenlyDevidend as checksumByEvenlyDevidend} from 'lib/checksum'
 import http from 'services/http'
+import query from 'lib/location'
 
 const baseUrl = () => {
   return ''
@@ -19,8 +20,12 @@ export default class Day2 extends Component {
       }).then(res => res.ok ? res.text() : Promise.resolve('')).then(data => {
         let spreadSheet = data.split('\n')
         spreadSheet = spreadSheet.map(row => row.split('\t').map(item => parseInt(item, 10)))
-
-        const output = checksum(spreadSheet)
+        let output
+        if (query.byevenlydevidend) {
+          output = checksumByEvenlyDevidend(spreadSheet)
+        } else {
+          output = checksumByMaxMin(spreadSheet)
+        }
         this.setState({output, spreadSheet, ready: true})
       })
     } catch (err) {
