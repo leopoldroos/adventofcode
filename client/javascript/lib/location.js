@@ -6,7 +6,6 @@ const query = () => {
     let keyValue = part.split('=')
     params[keyValue[0]] = keyValue[1]
   })
-  console.log({params})
   return params
 }
 
