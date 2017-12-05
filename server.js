@@ -3,6 +3,10 @@ const cors = require('cors')
 const path = require('path')
 const fs = require('fs')
 
+const controllers = {
+  spiral: require('./server/controllers/spiral')
+}
+
 const app = express()
 
 app.use(express.static('public'))
@@ -15,6 +19,17 @@ app.options('*', cors())
 
 app.listen(3000, () => {
   console.log('Express is listening to http://localhost:3000')
+})
+
+app.get('/generic/:controller', (req, res) => {
+  try {
+    const controller = controllers[req.params.controller]
+    const data = controller.run(req)
+    res.send(data)
+  } catch (err) {
+    console.log('path.resolve error: ', err)
+    res.send(500)
+  }
 })
 
 app.get('/files/:filename', (req, res) => {
