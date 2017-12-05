@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import inverseCaptcha from 'lib/inverse_captcha'
 import query from 'lib/location'
-export default class DayContainer extends Component {
+export default class Day1 extends Component {
   render () {
     const input = query.input
     const halfOffset = query.halfoffset
