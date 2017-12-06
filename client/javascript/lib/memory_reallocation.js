@@ -18,8 +18,9 @@ let checksums = []
 const isCurrentBanksLooped = (banks) => {
   let checksum = banks.slice(0) // clone
   checksum = checksum.map(block => block.toString()).join()
-  if (checksums.indexOf(checksum) !== -1) {
-    return true
+  let loopIdentifiedAtIndex = checksums.indexOf(checksum)
+  if (loopIdentifiedAtIndex !== -1) {
+    return loopIdentifiedAtIndex
   }
   checksums.push(checksum)
   return false
@@ -27,13 +28,14 @@ const isCurrentBanksLooped = (banks) => {
 
 export const reallocation = (banks) => {
   let cycles = 0
-  let loopIdentified = false
+  let loopIdentifiedAtIndex = false
   let index
-  while (!loopIdentified) {
+  isCurrentBanksLooped(banks) // Just to push the first banks-state to checksums
+  while (loopIdentifiedAtIndex === false) {
     cycles++
     index = getIndexForBiggestBlock(banks)
     banks = distribute(index, banks)
-    loopIdentified = isCurrentBanksLooped(banks)
+    loopIdentifiedAtIndex = isCurrentBanksLooped(banks)
   }
-  return {cycles, loopedBanks: banks}
+  return {cycles, loopedBanks: banks, loopIdentifiedAtIndex}
 }
