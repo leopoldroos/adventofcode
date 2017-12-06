@@ -15,9 +15,7 @@ export default class Day5 extends Component {
 
   componentWillMount () {
     try {
-      http.get(baseUrl(), '/files/offset_game_day5.txt', {
-        // queryParams: {client: site.getClient(), asset_ids: assetId}
-      }).then(res => res.ok ? res.text() : Promise.resolve('')).then(data => {
+      http.get(baseUrl(), '/files/offset_game_day5.txt', {}).then(res => res.ok ? res.text() : Promise.resolve('')).then(data => {
         const withATwist = query.withatwist
         let offsets = data.split('\n').map(offset => parseInt(offset, 10))
         const originalOffsets = offsets.slice(0) // clone
