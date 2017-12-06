@@ -15,15 +15,21 @@ export default class Day3 extends Component {
 
   componentWillMount () {
     const value = query.value
+    const withatwist = query.withatwist
     try {
-      http.get(baseUrl(), `/generic/spiral?value=${value}`, {
-        // queryParams: {client: site.getClient(), asset_ids: assetId}
-      }).then(res => res.ok ? res.json() : Promise.resolve('')).then(data => {
-        const {spiral, xIndexStored, yIndexStored} = data
-        console.log(data)
-        const output = spiralMemory(value, spiral, xIndexStored, yIndexStored)
-        this.setState({output, spiral, value, ready: true})
-      })
+      if (withatwist) {
+        http.get(baseUrl(), `/generic/spiral?value=${value}&withatwist=1`, {}).then(res => res.ok ? res.json() : Promise.resolve('')).then(data => {
+          const {spiral, xIndexStored, yIndexStored, number} = data
+          const output = `${number} @${xIndexStored},${yIndexStored}`
+          this.setState({output, spiral, value, ready: true})
+        })
+      } else {
+        http.get(baseUrl(), `/generic/spiral?value=${value}`, {}).then(res => res.ok ? res.json() : Promise.resolve('')).then(data => {
+          const {spiral, xIndexStored, yIndexStored} = data
+          const output = spiralMemory(value, spiral, xIndexStored, yIndexStored)
+          this.setState({output, spiral, value, ready: true})
+        })
+      }
     } catch (err) {
       console.error('Failed:', err)
     }
