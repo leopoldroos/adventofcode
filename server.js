@@ -17,8 +17,8 @@ app.options('*', cors())
 //   res.send('Hello world')
 // })
 
-app.listen(3000, () => {
-  console.log('Express is listening to http://localhost:3000')
+app.listen(1337, () => {
+  console.log('Express is listening to http://localhost:1337')
 })
 
 app.get('/generic/:controller', (req, res) => {
