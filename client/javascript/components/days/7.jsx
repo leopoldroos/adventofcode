@@ -1,10 +1,19 @@
 import React, { Component } from 'react'
-import recursiveCircus from 'lib/recursive_circus'
+import {buildTower, balanceTower} from 'lib/recursive_circus'
 import http from 'services/http'
-import query from 'lib/location'
 
 const baseUrl = () => {
   return ''
+}
+
+const reduceToTotalWeight = (towerPart) => {
+  // let weight = 0
+  // if (towerPart.children) {
+  //   return towerPart.children.map(part => ({ weight: reduceToTotalWeight(part) }))
+  // } else {
+  //   console.log(towerPart)
+  //   return towerPart.sumOfChildWeights
+  // }
 }
 
 export default class Day7 extends Component {
@@ -15,9 +24,10 @@ export default class Day7 extends Component {
 
   componentWillMount () {
     try {
-      http.get(baseUrl(), '/files/recursive_circus_dryrun.txt', {}).then(res => res.ok ? res.text() : Promise.resolve('')).then(data => {
-        const withATwist = query.withatwist
-        let programs = data.split('\n').map(program => {
+      http.get(baseUrl(), '/files/recursive_circus.txt', {}).then(res => res.ok ? res.text() : Promise.resolve('')).then(data => {
+        let programs = data.split('\n')
+        let programsInStruct = {}
+        programs.forEach(program => {
           const parts = program.split(' -> ')
           const nameAndWeight = parts[0].split(' ')
           let name = nameAndWeight[0]
@@ -26,11 +36,15 @@ export default class Day7 extends Component {
           if (parts[1]) {
             childNames = parts[1].split(', ')
           }
-          return {name, weight, childNames}
+          programsInStruct[name] = {name, weight, childNames}
         })
-        console.log({programs})
-        const output = recursiveCircus(programs, withATwist)
-        this.setState({output, ready: true})
+        let tower = buildTower(programsInStruct)
+
+        tower = reduceToTotalWeight(tower)
+
+        const wrongWeight = balanceTower(tower, programsInStruct)
+        console.log({wrongWeight})
+        this.setState({tower, ready: true})
       })
     } catch (err) {
       console.error('Failed:', err)
@@ -38,14 +52,13 @@ export default class Day7 extends Component {
   }
 
   render () {
-    const {ready, output} = this.state
+    const {ready, tower} = this.state
 
     if (!ready) return null
 
     return (
       <div>
-        {/* <p>{`Input: ${originalOffsets}`}</p> */}
-        <p>{`Output: ${output}`}</p>
+        <pre>{JSON.stringify(tower, null, 2)}</pre>
       </div>
     )
   }

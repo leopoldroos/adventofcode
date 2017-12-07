@@ -1,48 +1,57 @@
-const applyNames = (parent, names, arrangedPrograms) => {
-  names.forEach(name => {
-    arrangedPrograms[name] = parent
+const buildChildrenForProgram = (childNames, programsInStruct) => {
+  let children = []
+  let sumOfChildWeights = 0
+  childNames.forEach(childName => {
+    const program = programsInStruct[childName]
+    // sumOfChildWeights += program.weight
+    let child = {
+      name: program.name,
+      weight: program.weight,
+      children: false,
+      sumOfChildWeights: 0
+    }
+    if (program.childNames) {
+      let subChildren = buildChildrenForProgram(program.childNames, programsInStruct)
+
+      child.children = subChildren.children
+      child.sumOfChildWeights = subChildren.sumOfChildWeights + program.weight
+
+      sumOfChildWeights += subChildren.sumOfChildWeights
+    } else {
+      sumOfChildWeights += program.weight
+    }
+    children.push(child)
   })
-  return arrangedPrograms
+
+  return {children, sumOfChildWeights}
 }
 
-export default (programs, withATwist) => {
-  let arrangedPrograms = {}
+export const buildTower = (programsInStruct, withATwist) => {
+  let programsInArray = Object.keys(programsInStruct).map(name => programsInStruct[name])
 
-  let parents = programs.filter(program => program.childNames)
-
-
-  parents.forEach(parent => {
-    let mainParent = programs.find(program => parents.childNames.includes(parent.name))
-  })
-    
-
-
-
-
-  programs.forEach(program => {
-    if (!program.childNames) {
-      arrangedPrograms[program.name] = program.weight
-    }
-  })
-
-  programs.forEach(program => {
-    if (program.childNames) {
-      arrangedPrograms = applyNames(program.name, program.childNames, arrangedPrograms)
-    }
-  })
-
-  let parents = programs.filter(program => program.childNames)
-
+  let parents = programsInArray.filter(program => program.childNames)
+  let mainParent
+  let found = false
   for (let i = 0; i < parents.length; i++) {
     let parent = parents[i]
-    parent.childNames
+    found = parents.find(program => program.childNames.includes(parent.name))
+    if (!found) {
+      mainParent = parent
+      break
+    }
   }
-  console.log({orphans})
+
+  const arrangedPrograms = {
+    name: mainParent.name,
+    weight: mainParent.weight
+  }
+  let subChildren = buildChildrenForProgram(mainParent.childNames, programsInStruct)
+  arrangedPrograms.children = subChildren.children
+  arrangedPrograms.sumOfChildWeights = subChildren.sumOfChildWeights
+
   return arrangedPrograms
 }
-/*
-a   e   g
-b   e   g
-c   f   g
-d   f   g
-*/
+
+export const balanceTower = (tower, programsInStruct) => {
+  return -1
+}
