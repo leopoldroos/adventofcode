@@ -52,6 +52,23 @@ export const buildTower = (programsInStruct, withATwist) => {
   return arrangedPrograms
 }
 
-export const balanceTower = (tower, programsInStruct) => {
+let errorData
+const checkDifferentWeight = (children) => {
+  let weight = children[0].sumOfChildWeights + children[0].weight
+  children.forEach((child, index) => {
+    console.log(weight, child.weight + child.sumOfChildWeights)
+    // if ((child.weight + child.sumOfChildWeights) !== weight) {
+    //   errorData = {children, index}
+    //   throw new Error('Found different!')
+    // }
+  })
+}
+
+export const balanceTower = (tower) => {
+  try {
+    checkDifferentWeight(tower.children)
+  } catch (err) {
+    console.log('Found a diff!', errorData)
+  }
   return -1
 }

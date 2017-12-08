@@ -24,7 +24,7 @@ export default class Day7 extends Component {
 
   componentWillMount () {
     try {
-      http.get(baseUrl(), '/files/recursive_circus.txt', {}).then(res => res.ok ? res.text() : Promise.resolve('')).then(data => {
+      http.get(baseUrl(), '/files/recursive_circus_dryrun.txt', {}).then(res => res.ok ? res.text() : Promise.resolve('')).then(data => {
         let programs = data.split('\n')
         let programsInStruct = {}
         programs.forEach(program => {
@@ -40,9 +40,7 @@ export default class Day7 extends Component {
         })
         let tower = buildTower(programsInStruct)
 
-        tower = reduceToTotalWeight(tower)
-
-        const wrongWeight = balanceTower(tower, programsInStruct)
+        const wrongWeight = balanceTower(tower)
         console.log({wrongWeight})
         this.setState({tower, ready: true})
       })
