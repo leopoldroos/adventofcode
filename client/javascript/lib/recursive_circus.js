@@ -1,29 +1,24 @@
 const buildChildrenForProgram = (childNames, programsInStruct) => {
   let children = []
-  let sumOfChildWeights = 0
   childNames.forEach(childName => {
     const program = programsInStruct[childName]
-    // sumOfChildWeights += program.weight
+
     let child = {
       name: program.name,
       weight: program.weight,
-      children: false,
+      children: [],
       sumOfChildWeights: 0
     }
+
     if (program.childNames) {
-      let subChildren = buildChildrenForProgram(program.childNames, programsInStruct)
-
-      child.children = subChildren.children
-      child.sumOfChildWeights = subChildren.sumOfChildWeights + program.weight
-
-      sumOfChildWeights += subChildren.sumOfChildWeights
-    } else {
-      sumOfChildWeights += program.weight
+      child.children = buildChildrenForProgram(program.childNames, programsInStruct)
+      child.children.forEach(subChild => (child.sumOfChildWeights += subChild.totalWeight))
     }
+    child.totalWeight = child.weight + child.sumOfChildWeights
     children.push(child)
   })
 
-  return {children, sumOfChildWeights}
+  return children
 }
 
 export const buildTower = (programsInStruct, withATwist) => {
@@ -43,32 +38,54 @@ export const buildTower = (programsInStruct, withATwist) => {
 
   const arrangedPrograms = {
     name: mainParent.name,
-    weight: mainParent.weight
+    weight: mainParent.weight,
+    sumOfChildWeights: 0
   }
-  let subChildren = buildChildrenForProgram(mainParent.childNames, programsInStruct)
-  arrangedPrograms.children = subChildren.children
-  arrangedPrograms.sumOfChildWeights = subChildren.sumOfChildWeights
+
+  arrangedPrograms.children = buildChildrenForProgram(mainParent.childNames, programsInStruct)
+  arrangedPrograms.children.forEach(subChild => (arrangedPrograms.sumOfChildWeights += subChild.totalWeight))
+  arrangedPrograms.totalWeight = arrangedPrograms.sumOfChildWeights + arrangedPrograms.weight
 
   return arrangedPrograms
 }
 
 let errorData
 const checkDifferentWeight = (children) => {
-  let weight = children[0].sumOfChildWeights + children[0].weight
-  children.forEach((child, index) => {
-    console.log(weight, child.weight + child.sumOfChildWeights)
-    // if ((child.weight + child.sumOfChildWeights) !== weight) {
-    //   errorData = {children, index}
-    //   throw new Error('Found different!')
-    // }
-  })
+  if (children[0].totalWeight !== children[1].totalWeight && children[0].totalWeight !== children[2].totalWeight) {
+    errorData = {children, index: 0}
+    throw new Error('Found different!')
+  } else if (children[1].totalWeight !== children[0].totalWeight && children[1].totalWeight !== children[2].totalWeight) {
+    errorData = {children, index: 1}
+    throw new Error('Found different!')
+  } else if (children[2].totalWeight !== children[0].totalWeight && children[2].totalWeight !== children[1].totalWeight) {
+    errorData = {children, index: 2}
+    throw new Error('Found different!')
+  } else {
+    for (let i = 3; i < children.length; i++) {
+      if (children[i].totalWeight !== children[0].totalWeight) {
+        errorData = {children, index: i}
+        throw new Error('Found different!')
+      }
+    }
+  }
+  return true
 }
 
+let newWeight = 0
 export const balanceTower = (tower) => {
+  // console.log(tower)
   try {
     checkDifferentWeight(tower.children)
   } catch (err) {
     console.log('Found a diff!', errorData)
+
+    const errorIndex = errorData.index
+    const commonIndex = errorIndex === 0 ? 1 : 0
+    const problemProgram = errorData.children[errorIndex]
+    let diff = errorData.children[commonIndex].totalWeight - problemProgram.totalWeight
+    newWeight = problemProgram.weight + diff
+
+    balanceTower(problemProgram)
   }
-  return -1
+  return newWeight
 }

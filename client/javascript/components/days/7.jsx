@@ -6,16 +6,6 @@ const baseUrl = () => {
   return ''
 }
 
-const reduceToTotalWeight = (towerPart) => {
-  // let weight = 0
-  // if (towerPart.children) {
-  //   return towerPart.children.map(part => ({ weight: reduceToTotalWeight(part) }))
-  // } else {
-  //   console.log(towerPart)
-  //   return towerPart.sumOfChildWeights
-  // }
-}
-
 export default class Day7 extends Component {
   constructor (props) {
     super(props)
@@ -24,7 +14,7 @@ export default class Day7 extends Component {
 
   componentWillMount () {
     try {
-      http.get(baseUrl(), '/files/recursive_circus_dryrun.txt', {}).then(res => res.ok ? res.text() : Promise.resolve('')).then(data => {
+      http.get(baseUrl(), '/files/recursive_circus.txt', {}).then(res => res.ok ? res.text() : Promise.resolve('')).then(data => {
         let programs = data.split('\n')
         let programsInStruct = {}
         programs.forEach(program => {
@@ -41,7 +31,7 @@ export default class Day7 extends Component {
         let tower = buildTower(programsInStruct)
 
         const wrongWeight = balanceTower(tower)
-        console.log({wrongWeight})
+        console.log('Part 2:', {wrongWeight})
         this.setState({tower, ready: true})
       })
     } catch (err) {
