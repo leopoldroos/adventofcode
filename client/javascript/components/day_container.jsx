@@ -8,7 +8,7 @@ import Day6 from 'components/days/6.jsx'
 import Day7 from 'components/days/7.jsx'
 import Day8 from 'components/days/8.jsx'
 import Day9 from 'components/days/9.jsx'
-// import Day10 from 'components/days/10.jsx'
+import Day10 from 'components/days/10.jsx'
 // import Day11 from 'components/days/11.jsx'
 // import Day12 from 'components/days/12.jsx'
 // import Day13 from 'components/days/13.jsx'
@@ -47,6 +47,8 @@ export default class DayContainer extends Component {
         return <Day8 />
       case 9:
         return <Day9 />
+      case 10:
+        return <Day10 />
       default:
         return <div>{`No matching day (${day})`}</div>
     }
