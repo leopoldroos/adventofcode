@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import {buildTower, balanceTower} from 'lib/recursive_circus'
 import http from 'services/http'
 
 const baseUrl = () => {
