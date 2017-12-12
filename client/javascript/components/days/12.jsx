@@ -14,7 +14,7 @@ export default class Day12 extends Component {
 
   componentWillMount () {
     try {
-      http.get(baseUrl(), '/files/digital_plumber_dryrun.txt', {}).then(res => res.ok ? res.text() : Promise.resolve('')).then(data => {
+      http.get(baseUrl(), '/files/digital_plumber.txt', {}).then(res => res.ok ? res.text() : Promise.resolve('')).then(data => {
         let pipes = data.split('\n')
         let agregatedPipes = {}
         pipes.forEach(pipe => {
@@ -27,7 +27,23 @@ export default class Day12 extends Component {
           agregatedPipes[parent] = agregatedPipes[parent].concat(children)
         })
 
-        let nrOfPipesToZero = Object.values(agregatedPipes).filter(children => children.includes('0')).length
+        const getPipesToParent = (parent) => {
+          if (agregatedPipes[parent].length) {
+            relatedPipes = relatedPipes.concat(agregatedPipes[parent])
+            let childPipes = agregatedPipes[parent].slice(0)
+            agregatedPipes[parent] = []
+            childPipes.map(getPipesToParent)
+          }
+        }
+
+        let relatedPipes = []
+        let parent = '0'
+        getPipesToParent(parent)
+
+        relatedPipes = relatedPipes.filter((elem, pos, arr) => arr.indexOf(elem) === pos)
+        let nrOfPipesToZero = relatedPipes.length
+        console.log({relatedPipes, nrOfPipesToZero})
+        // let nrOfPipesToZero = Object.values(agregatedPipes).filter(children => children.includes('0')).length
 
         this.setState({agregatedPipes, nrOfPipesToZero, ready: true})
       })
