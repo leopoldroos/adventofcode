@@ -1,22 +1,26 @@
 import React, { Component } from 'react'
 import charToAscii from 'char-to-ascii'
 import query from 'lib/location'
-import {converter as decimalToBinaryConverter} from 'decimal-to-binary-converter'
+import convertToBinary from 'binary-machine'
+import convertToDecimal from 'bin-to-decimal'
 
 export default class Day10 extends Component {
   render () {
     const withATwist = query.withatwist
-    const input = query.input
-    let inputs = input.split(',').map(inp => parseInt(inp, 10))
-
+    let input = query.input
+    let inputs
     if (withATwist) {
-      inputs = inputs.map(input => charToAscii)
+      input = '1,2,3' // test
+      inputs = charToAscii(input)
       inputs = inputs.concat([17, 31, 73, 47, 23])
+      console.log(JSON.stringify(inputs))
       let newInputs = []
-      for (let i = 0; i < 63; i++) { // THINK THIS THROUGH!!!
-        console.log({newInputs})
+      for (let i = 0; i < 64; i++) {
         newInputs = newInputs.concat(inputs)
       }
+      inputs = newInputs
+    } else {
+      inputs = input.split(',').map(inp => parseInt(inp, 10))
     }
 
     let nrOfElements = 256
@@ -26,7 +30,7 @@ export default class Day10 extends Component {
       elements[i] = i
       i++
     }
-    console.log('operationalLengths:', inputs, ', elements:', elements)
+    console.log('operationalLengths length:', inputs.length, ', elements length:', elements.length)
     let hashedElements = elements.slice(0)
 
     let skipSize = 0
@@ -65,40 +69,65 @@ export default class Day10 extends Component {
       skipSize++
       // console.log('currentpos is now set to: (previousCurrentPos + operationalLength=' + operationalLength + ' + skipSize=' + (skipSize - 1) + ') %' + elements.length + ' = ' + currentPosition + ' and skipSize is set to ' + skipSize)
     }
-    // console.log({hashedElements})
+    console.log({hashedElements})
 
     let dense
+    let denseBinary
     if (withATwist) {
+      const fillWithChar = (text, char, length) => {
+        for (let i = text.length; i < length; i++) {
+          text = char + text
+        }
+        return text
+      }
+
       const xor = (binA, binB, size) => {
         let xored = ''
-        if (binA.length < size) {
-          // TODO FILL UP WITH '0'!!!!!
-        }
-        if (binB.length < size) {
-          // TODO FILL UP WITH '0'!!!!!
-        }
+        binA = fillWithChar(binA, '0', size)
+        binB = fillWithChar(binB, '0', size)
         for (i = 0; i < size; i++) {
-          if ((binA[i] === '1' && binB[i] === '1') || (binA[i] === '0' && binB[i] === '1') || (binA[i] === '1' && binB[i] === '0')) {
-            xored = xored + '1'
-          } else {
+          if (binA[i] === binB[i]) {
             xored = xored + '0'
+          } else {
+            xored = xored + '1'
           }
         }
         return xored
       }
-
+      window.xor = xor
+      denseBinary = []
       dense = []
+      let size = 16
       let block
-      for (let i = 0; i < hashedElements.length - 1; i++) {
-        let currentBinary = decimalToBinaryConverter(hashedElements[i])
-        let nextBinary = decimalToBinaryConverter(hashedElements[i + 1])
-        if (!i % 16) {
-          console.log('pushes block: ' + block)
-          dense.push(block)
-          block = currentBinary
+      // hashedElements = [65, 27, 9, 1, 4, 3, 40, 50, 91, 7, 6, 0, 2, 5, 68, 22] // Should give 64
+
+      for (let i = 0; i < hashedElements.length; i++) {
+        if (!(i % 16)) {
+          block = fillWithChar('', '0', size)
         }
-        block = xor(block, nextBinary, 16)
+
+        let currentBinary = convertToBinary(hashedElements[i])
+        // console.log(block, fillWithChar(currentBinary, '0', size), '(' + hashedElements[i] + ')')
+        block = xor(block, currentBinary, size)
+        // console.log('->', block, '(' + convertToDecimal(block) + ')')
+
+        if (i !== 0 && !(i % 16)) {
+          // console.log('pushes block: ' + block)
+          denseBinary.push(block)
+          dense.push(convertToDecimal(block))
+        }
       }
+      // console.log('pushes block: ' + block)
+      denseBinary.push(block)
+      dense.push(convertToDecimal(block))
+      console.log({dense, denseBinary})
+      const dec2hexString = (dec) => {
+        // return '0x' + (dec + 0x10000).toString(16).substr(-4).toUpperCase()
+        return (dec + 0x10000).toString(16).substr(-2)
+      }
+      window.dec2hexString = dec2hexString
+      let hexadecAnswer = dense.map(dec2hexString).join('')
+      console.log({hexadecAnswer})
     }
 
     let answer = hashedElements[0] * hashedElements[1]
@@ -106,8 +135,8 @@ export default class Day10 extends Component {
     return (
       <div>
         <p>{`Aswer: ${answer}`}</p>
+        <pre>{JSON.stringify(denseBinary, null, 2)}</pre>
         <pre>{JSON.stringify(dense, null, 2)}</pre>
-        <pre>{JSON.stringify(elements, null, 2)}</pre>
         <pre>{JSON.stringify(hashedElements, null, 2)}</pre>
       </div>
     )
