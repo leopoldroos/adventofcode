@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import {followTrail, furthestAwayInTrail} from 'lib/hex_trail'
 import http from 'services/http'
 
 const baseUrl = () => {
@@ -40,12 +39,35 @@ export default class Day12 extends Component {
         let parent = '0'
         getPipesToParent(parent)
 
-        relatedPipes = relatedPipes.filter((elem, pos, arr) => arr.indexOf(elem) === pos)
-        let nrOfPipesToZero = relatedPipes.length
-        console.log({relatedPipes, nrOfPipesToZero})
-        // let nrOfPipesToZero = Object.values(agregatedPipes).filter(children => children.includes('0')).length
+        let nrOfPipesToZero = relatedPipes.filter((elem, pos, arr) => arr.indexOf(elem) === pos).length
 
-        this.setState({agregatedPipes, nrOfPipesToZero, ready: true})
+        const reduceAgregatedPipes = () => {
+          let reducedPipes = {}
+          Object.keys(agregatedPipes).map(parent => {
+            if (agregatedPipes[parent].length > 0) {
+              reducedPipes[parent] = agregatedPipes[parent]
+            }
+          })
+          agregatedPipes = reducedPipes
+        }
+
+        let nrOfGroups = 1  // the '0' group above :)
+        let hasMoreGroups = true
+        let guard = 0
+        while (hasMoreGroups && guard < 10000) {
+          guard++
+          reduceAgregatedPipes()
+
+          let parents = Object.keys(agregatedPipes)
+          if (parents.length > 0) {
+            nrOfGroups++
+            parent = parents.pop()
+            getPipesToParent(parent)
+          } else {
+            hasMoreGroups = false
+          }
+        }
+        this.setState({agregatedPipes, nrOfPipesToZero, nrOfGroups, ready: true})
       })
     } catch (err) {
       console.error('Failed:', err)
@@ -53,13 +75,13 @@ export default class Day12 extends Component {
   }
 
   render () {
-    const {ready, agregatedPipes, nrOfPipesToZero} = this.state
+    const {ready, agregatedPipes, nrOfGroups, nrOfPipesToZero} = this.state
 
     if (!ready) return null
 
     return (
       <div>
-        ==== nrOfPipesToZero: {nrOfPipesToZero} ====
+        ==== nrOfPipesToZero: {nrOfPipesToZero}, nrOfGroups: {nrOfGroups} ====
         <pre>{JSON.stringify(agregatedPipes, null, 2)}</pre>
       </div>
     )
