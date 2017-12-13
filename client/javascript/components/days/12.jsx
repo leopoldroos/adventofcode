@@ -53,9 +53,7 @@ export default class Day12 extends Component {
 
         let nrOfGroups = 1  // the '0' group above :)
         let hasMoreGroups = true
-        let guard = 0
-        while (hasMoreGroups && guard < 10000) {
-          guard++
+        while (hasMoreGroups) {
           reduceAgregatedPipes()
 
           let parents = Object.keys(agregatedPipes)
