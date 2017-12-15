@@ -7,21 +7,6 @@ const baseUrl = () => {
   return ''
 }
 
-class Polygon {
-  constructor (height, width) {
-    this.height = height
-    this.width = width
-  }
-
-  get area () {
-    return this.calcArea()
-  }
-
-  calcArea () {
-    return this.height * this.width
-  }
-}
-
 class Scanner {
   constructor (props) {
     this.state = {
@@ -41,12 +26,14 @@ class Scanner {
   }
 
   onReset () {
+    // if (this.state.layer === 0) console.log('RESETS')
     this.state.index = 0
     this.state.direction = 1
   }
 
   onTick () {
-    let {index, direction, depth} = this.state
+    let {layer, index, direction, depth} = this.state
+    // if (layer === 0) console.log('on tick', index)
     if (index === 0) {
       direction = 1
     } else if (index === (depth - 1)) {
@@ -58,6 +45,7 @@ class Scanner {
 
   onMovesToLayer (currentLayer) {
     let {layer, index, depth} = this.state
+    // if (layer === 0) console.log('on move to layer', currentLayer, index, (currentLayer === layer && 'CAUGHT'))
     if (currentLayer === layer && index === 0) {
       EventEmitter.emit('caught', layer * depth)
     }
@@ -94,22 +82,36 @@ export default class Day13 extends Component {
         console.log({totalSeverity})
         this.setState({totalSeverity}, () => {
           let homeRun = false
-          let delay = 1
+          let delay = 0
+          let tick = 0
+          totalSeverity = 0
+          EventEmitter.emit('reset')
           while (!homeRun) {
-            totalSeverity = 0
-            delay++
-            for (let i = 0; i < layer; i++) {
-              EventEmitter.emit('movesToLayer', i)
-              EventEmitter.emit('tick')
-              if (totalSeverity > 0) {
-                console.log('RESETS!', delay, layer)
-                EventEmitter.emit('reset')
-                break
-              }
-            }
-            if (totalSeverity === 0 || delay > 2000) homeRun = true
-          }
+            if (tick >= delay) {
+              for (let i = 0; i < layer; i++) {
+                EventEmitter.emit('movesToLayer', i)
+                EventEmitter.emit('tick')
 
+                if (totalSeverity > 0) {
+                  console.log('CAUGHT!', JSON.stringify({delay, i}), totalSeverity)
+                  break
+                }
+              }
+              if (totalSeverity === 0) {
+                homeRun = true
+              } else {
+                totalSeverity = 0
+                tick = 0
+                delay++
+                EventEmitter.emit('reset')
+              }
+            } else {
+              EventEmitter.emit('tick')
+              tick++
+            }
+            if (delay > 5000) homeRun = true
+          }
+// inte 1969
           this.setState({layersWithDepth, delay, ready: true})
         })
       })
