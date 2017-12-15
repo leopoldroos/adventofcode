@@ -33,9 +33,16 @@ class Scanner {
 
     this.onMovesToLayer = this.onMovesToLayer.bind(this)
     this.onTick = this.onTick.bind(this)
+    this.onReset = this.onReset.bind(this)
 
     EventEmitter.on('movesToLayer', this.onMovesToLayer)
     EventEmitter.on('tick', this.onTick)
+    EventEmitter.on('reset', this.onReset)
+  }
+
+  onReset () {
+    this.state.index = 0
+    this.state.direction = 1
   }
 
   onTick () {
@@ -53,7 +60,6 @@ class Scanner {
     let {layer, index, depth} = this.state
     if (currentLayer === layer && index === 0) {
       EventEmitter.emit('caught', layer * depth)
-      console.log('CAUGHT!!!', layer * depth)
     }
   }
 }
@@ -81,13 +87,31 @@ export default class Day13 extends Component {
         EventEmitter.on('caught', (severity) => {
           totalSeverity += severity
         })
-        setTimeout(() => {
-          for (let i = 0; i < layer; i++) {
-            EventEmitter.emit('movesToLayer', i)
-            EventEmitter.emit('tick')
+        for (let i = 0; i < layer; i++) {
+          EventEmitter.emit('movesToLayer', i)
+          EventEmitter.emit('tick')
+        }
+        console.log({totalSeverity})
+        this.setState({totalSeverity}, () => {
+          let homeRun = false
+          let delay = 1
+          while (!homeRun) {
+            totalSeverity = 0
+            delay++
+            for (let i = 0; i < layer; i++) {
+              EventEmitter.emit('movesToLayer', i)
+              EventEmitter.emit('tick')
+              if (totalSeverity > 0) {
+                console.log('RESETS!', delay, layer)
+                EventEmitter.emit('reset')
+                break
+              }
+            }
+            if (totalSeverity === 0 || delay > 2000) homeRun = true
           }
-          this.setState({layersWithDepth, totalSeverity, ready: true})
-        }, 1000)
+
+          this.setState({layersWithDepth, delay, ready: true})
+        })
       })
     } catch (err) {
       console.error('Failed:', err)
@@ -95,13 +119,13 @@ export default class Day13 extends Component {
   }
 
   render () {
-    const {ready, layersWithDepth, totalSeverity} = this.state
+    const {ready, layersWithDepth, totalSeverity, delay} = this.state
 
     if (!ready) return null
 
     return (
       <div>
-        ==== totalSeverity: {totalSeverity} ====
+        ==== totalSeverity: {totalSeverity}, delay: {delay} ====
         <pre>{JSON.stringify(layersWithDepth, null, 2)}</pre>
       </div>
     )
