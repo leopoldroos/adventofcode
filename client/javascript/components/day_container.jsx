@@ -12,11 +12,11 @@ import Day10 from 'components/days/10.jsx'
 import Day11 from 'components/days/11.jsx'
 import Day12 from 'components/days/12.jsx'
 import Day13 from 'components/days/13.jsx'
-// import Day14 from 'components/days/14.jsx'
-// import Day15 from 'components/days/15.jsx'
-// import Day16 from 'components/days/16.jsx'
-// import Day17 from 'components/days/17.jsx'
-// import Day18 from 'components/days/18.jsx'
+import Day14 from 'components/days/14.jsx'
+import Day15 from 'components/days/15.jsx'
+import Day16 from 'components/days/16.jsx'
+import Day17 from 'components/days/17.jsx'
+import Day18 from 'components/days/18.jsx'
 // import Day19 from 'components/days/19.jsx'
 // import Day20 from 'components/days/20.jsx'
 // import Day21 from 'components/days/21.jsx'
@@ -55,6 +55,16 @@ export default class DayContainer extends Component {
         return <Day12 />
       case 13:
         return <Day13 />
+      case 14:
+        return <Day14 />
+      case 15:
+        return <Day15 />
+      case 16:
+        return <Day16 />
+      case 17:
+        return <Day17 />
+      case 18:
+        return <Day18 />
       default:
         return <div>{`No matching day (${day})`}</div>
     }
