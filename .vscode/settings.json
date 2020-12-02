@@ -1,4 +1,6 @@
 {
+  "editor.scrollBeyondLastLine": false,
+  "editor.formatOnSave": true,
   "workbench.colorCustomizations": {
     "activityBar.background": "#0090ff45"
   }

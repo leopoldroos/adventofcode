@@ -1,75 +1,30 @@
 {
-  "name": "adventofcode",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "learn-starter",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "build": "./scripts/build-js.sh",
-    "test": "./scripts/test",
-    "watch": "NODE_PATH=client/javascript/:. watchify client/javascript/app.js -t [ babelify ] -o public/generic/app.js -v"
+    "dev": "next dev -p 1337",
+    "build": "next build",
+    "start": "next start"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/leopoldroos/adventofcode.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/leopoldroos/adventofcode/issues"
-  },
-  "homepage": "https://github.com/leopoldroos/adventofcode#readme",
   "dependencies": {
-    "babel-cli": "6.18.0",
-    "babel-core": "6.20.0",
-    "babel-polyfill": "6.20.0",
-    "babel-preset-env": "^1.6.0",
-    "babel-preset-react": "6.16.0",
-    "babel-preset-stage-3": "6.24.1",
-    "babelify": "7.3.0",
     "bin-to-decimal": "^1.1.1",
     "binary-machine": "^2.0.1",
-    "browserify": "13.1.1",
     "char-to-ascii": "^1.0.0",
-    "cors": "^2.8.4",
-    "envify": "^4.1.0",
-    "eventemitter3": "^3.0.0",
-    "express": "^4.16.2",
-    "json-to-html": "^0.1.2",
-    "react": "^15.4.2",
-    "react-dom": "15.4.2",
-    "react-ga": "2.1.2",
-    "react-router": "3.0.2",
-    "react-router-dom": "4.2.2",
-    "reactify": "^1.1.1",
-    "uglify-js": "^3.2.0",
-    "whatwg-fetch": "^2.0.3"
+    "eventemitter3": "^4.0.7",
+    "mobile-detect": "^1.4.4",
+    "next": "^10.0.0",
+    "next-redux-wrapper": "^6.0.2",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "react-redux": "^7.2.2",
+    "react-responsive": "^8.2.0",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
+    "styled-components": "^5.2.1",
+    "whatwg-fetch": "^3.5.0"
   },
   "devDependencies": {
-    "babel-preset-es2015": "^6.24.1",
-    "bundle-collapser": "^1.3.0",
-    "uglifyjs": "^2.4.11",
-    "watchify": "^3.9.0"
-  },
-  "babel": {
-    "presets": [
-      "react"
-    ]
-  },
-  "browserify": {
-    "transform": [
-      [
-        "babelify",
-        {
-          "presets": [
-            "react",
-            "es2015"
-          ]
-        },
-        "reactify",
-        {
-          "es6": true
-        }
-      ]
-    ]
+    "babel-plugin-styled-components": "^1.12.0"
   }
 }
