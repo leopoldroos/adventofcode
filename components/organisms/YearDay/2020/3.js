@@ -53,11 +53,8 @@ const StyledButton = styled(Button.DefaultButton)`
 `
 
 const Description = styled(Text)``
-const Result = styled(Text)`
-  font-weight: bold;
-`
 
-const Day2 = () => {
+const Day3 = () => {
   const [inputData, setInputData] = useState(testData)
   const [resultOne, setResultOne] = useState(null)
   const [resultTwo, setResultTwo] = useState(null)
@@ -87,4 +84,4 @@ const Day2 = () => {
     </div>
   )
 }
-export default Day2
+export default Day3

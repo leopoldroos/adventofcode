@@ -11,7 +11,9 @@ const InputArea = ({ onChange, defaultValue }) => {
         const val = e.target.value.trim().split('\n')
         onChange(val)
       }}
-      defaultValue={defaultValue.join('\r\n')}
+      defaultValue={
+        Array.isArray(defaultValue) ? defaultValue.join('\r\n') : defaultValue
+      }
     ></StyledTextArea>
   )
 }
