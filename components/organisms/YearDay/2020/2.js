@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import Button from '@/components/atoms/Button'
 import Text from '@/components/atoms/Text'
+import InputArea from '@/components/atoms/InputArea'
+import Results from '@/components/molecules/Results'
 import styled from 'styled-components'
 import { removeAllExcept } from '@/helpers/createRegularExpression'
 
@@ -38,24 +40,20 @@ export const validateByIndexOnValues = (data) => {
 const StyledButton = styled(Button.DefaultButton)`
   color: #fff;
 `
-
-const InputArea = styled.textarea`
-  width: -webkit-fill-available;
-`
 const Description = styled(Text)``
-const Result = styled(Text)`
-  font-weight: bold;
-`
 
 const Day2 = () => {
   const [inputData, setInputData] = useState(testData)
   const [resultOne, setResultOne] = useState(null)
   const [resultTwo, setResultTwo] = useState(null)
+  const [resultTwoMeta, setResultTwoMeta] = useState(null)
 
   const onRun = () => {
     const preparedData = prepareData(inputData)
     setResultOne(validateRegExpOnValues(preparedData))
-    setResultTwo(validateByIndexOnValues(preparedData))
+    const resTwo = validateByIndexOnValues(preparedData)
+    setResultTwo(resTwo.length)
+    setResultTwoMeta(resTwo)
   }
 
   const taskDescription = `Each line gives the password policy and then the password. The password policy indicates the lowest and highest number of times a given letter must appear for the password to be valid. For example, 1-3 a means that the password must contain a at least 1 time and at most 3 times.
@@ -64,31 +62,15 @@ const Day2 = () => {
 
   return (
     <div>
-      <p>Data:</p>
       <p>
-        <InputArea
-          onChange={(e) => {
-            const val = e.target.value.trim().split('\n')
-            setInputData(val)
-          }}
-          defaultValue={inputData.join('\r\n')}
-        ></InputArea>
+        <InputArea onChange={setInputData} defaultValue={inputData}></InputArea>
       </p>
       <p>
         <Description>{taskDescription}</Description>
       </p>
       <StyledButton label="Run!" onClick={onRun} />
       <p>
-        <Result>
-          {resultOne !== null ? resultOne.toString() : 'no result'}
-        </Result>
-      </p>
-      <p>
-        <Result>
-          {resultTwo !== null
-            ? resultTwo.length // resultTwo.map((v) => <p>{JSON.stringify(v)}</p>)
-            : 'no result'}
-        </Result>
+        <Results resultOne={resultOne} resultTwo={resultTwo} />
       </p>
     </div>
   )

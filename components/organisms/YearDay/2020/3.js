@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import Button from '@/components/atoms/Button'
+import Results from '@/components/molecules/Results'
 import Text from '@/components/atoms/Text'
+import InputArea from '@/components/atoms/InputArea'
 import styled from 'styled-components'
-import { removeAllExcept } from '@/helpers/createRegularExpression'
 
 export const testData = [
   '..##.......',
@@ -51,9 +52,6 @@ const StyledButton = styled(Button.DefaultButton)`
   color: #fff;
 `
 
-const InputArea = styled.textarea`
-  width: -webkit-fill-available;
-`
 const Description = styled(Text)``
 const Result = styled(Text)`
   font-weight: bold;
@@ -76,31 +74,15 @@ const Day2 = () => {
 
   return (
     <div>
-      <p>Data:</p>
       <p>
-        <InputArea
-          onChange={(e) => {
-            const val = e.target.value.trim().split('\n')
-            setInputData(val)
-          }}
-          defaultValue={inputData.join('\r\n')}
-        ></InputArea>
+        <InputArea onChange={setInputData} defaultValue={inputData}></InputArea>
       </p>
       <p>
         <Description>{taskDescription}</Description>
       </p>
       <StyledButton label="Run!" onClick={onRun} />
       <p>
-        <Result>
-          {resultOne !== null ? resultOne.toString() : 'no result'}
-        </Result>
-      </p>
-      <p>
-        <Result>
-          {resultTwo !== null
-            ? resultTwo // resultTwo.map((v) => <p>{JSON.stringify(v)}</p>)
-            : 'no result'}
-        </Result>
+        <Results resultOne={resultOne} resultTwo={resultTwo} />
       </p>
     </div>
   )
