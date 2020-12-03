@@ -1,14 +1,27 @@
-import React, { Component } from 'react'
-import inverseCaptcha from '@/helpers/inverse_captcha'
-import query from '@/helpers/location'
+import React, {useState} from 'react'
+import Button from '@/components/atoms/Button'
+import Text from '@/components/atoms/Text'
+import styled from 'styled-components'
 
+const testData = [1721, 979, 366, 299, 675, 1456]
+
+const StyledButton = styled(Button.DefaultButton)`
+color: #fff;`
+
+const InputArea = styled.textarea`
+width: -webkit-fill-available;
+`
 const Day1 = () => {
-  console.log('LETs do this!', query)
+  const [inputData, setInputData] = useState(testData)
 
-  const url = 'http://localhost.1337/2007/1?input=1&halfoffset=2' // `${window.location.oring}${window.location.oring}`
+  const onRun = () => {
+    console.log('Lets run!')
+  }
   return (
     <div>
-      <p>Example url: </p><a href={url}>{url}</a>
+      <p>Data:</p>
+      <p><InputArea defaultValue={inputData}></InputArea></p>
+      <StyledButton label="Run!" onClick={onRun} />
     </div>
   )
 }

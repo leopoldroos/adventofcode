@@ -7,7 +7,8 @@
             "@/store": ["store"],
             "@/themes": ["components/themes"],
             "@/hooks": ["hooks"],
-            "@/helpers/*": ["helpers/*"]
+            "@/helpers/*": ["helpers/*"],
+            "@/services/*": ["services/*"]
         }
     }
 }

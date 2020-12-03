@@ -1,32 +1,31 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled, { css } from "styled-components";
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled, { css } from 'styled-components'
 
 const getFontSize = (size, theme) => {
   switch (size) {
-    case "xxLarge":
-      return theme.fontSizes.size32;
-    case "xLarge":
-      return theme.fontSizes.size22;
-    case "large":
-      return theme.fontSizes.size18;
-    case "medium":
+    case 'xxLarge':
+      return theme.fontSizes.size32
+    case 'xLarge':
+      return theme.fontSizes.size22
+    case 'large':
+      return theme.fontSizes.size18
+    case 'medium':
     default:
-      return theme.fontSizes.size16;
-    case "small":
-      return theme.fontSizes.size14;
-    case "xSmall":
-      return theme.fontSizes.size12;
+      return theme.fontSizes.size16
+    case 'small':
+      return theme.fontSizes.size14
+    case 'xSmall':
+      return theme.fontSizes.size12
   }
-};
+}
 const StyledText = styled.span`
   font-family: ${(props) => props.theme.fonts.primary};
   font-size: ${({ theme, size }) => getFontSize(size, theme)};
   font-weight: ${(props) => props.weight};
-  font-style: ${(props) => (props.italic && "italic") || "normal"};
+  font-style: ${(props) => (props.italic && 'italic') || 'normal'};
   text-decoration: ${(props) => props.decoration};
   line-height: ${(props) => props.theme.lineHeights[props.lineHeight]};
-  word-break: break-word;
   ${({ textEllipsis }) =>
     textEllipsis &&
     css`
@@ -40,7 +39,7 @@ const StyledText = styled.span`
   em {
     font-style: italic;
   }
-`;
+`
 const Text = ({
   tagName,
   weight,
@@ -51,7 +50,7 @@ const Text = ({
   lineHeight,
   palette,
   size,
-  "data-cy": dataCy,
+  'data-cy': dataCy,
   textEllipsis,
 }) => (
   <StyledText
@@ -68,35 +67,35 @@ const Text = ({
   >
     {children}
   </StyledText>
-);
+)
 Text.propTypes = {
-  tagName: PropTypes.oneOf(["p", "span"]),
+  tagName: PropTypes.oneOf(['p', 'span']),
   size: PropTypes.oneOf([
-    "xSmall",
-    "small",
-    "medium",
-    "large",
-    "xLarge",
-    "xxLarge",
+    'xSmall',
+    'small',
+    'medium',
+    'large',
+    'xLarge',
+    'xxLarge',
   ]),
-  weight: PropTypes.oneOf(["400", "500", "600", "700"]),
+  weight: PropTypes.oneOf(['400', '500', '600', '700']),
   italic: PropTypes.bool,
   className: PropTypes.string,
-  decoration: PropTypes.oneOf(["none", "underline", "line-through"]),
+  decoration: PropTypes.oneOf(['none', 'underline', 'line-through']),
   children: PropTypes.node.isRequired,
-  lineHeight: PropTypes.oneOf(["small", "medium", "large"]),
-  "data-cy": PropTypes.string,
+  lineHeight: PropTypes.oneOf(['small', 'medium', 'large']),
+  'data-cy': PropTypes.string,
   textEllipsis: PropTypes.bool,
-};
+}
 Text.defaultProps = {
-  tagName: "span",
-  size: "medium",
-  weight: "400",
-  className: "",
+  tagName: 'span',
+  size: 'medium',
+  weight: '400',
+  className: '',
   italic: false,
-  decoration: "none",
-  lineHeight: "small",
-  "data-cy": null,
+  decoration: 'none',
+  lineHeight: 'small',
+  'data-cy': null,
   textEllipsis: null,
-};
-export default Text;
+}
+export default Text
