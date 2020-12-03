@@ -1,8 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import theme from "@/themes";
-import IconStyledButton from "./styles";
-import Icon from "@/components/atoms/Icon";
+import React from 'react'
+import PropTypes from 'prop-types'
+import theme from '@/components/themes'
+import IconStyledButton from './styles'
+import Icon from '@/components/atoms/Icon'
 
 const IconButton = React.forwardRef(
   (
@@ -17,7 +17,7 @@ const IconButton = React.forwardRef(
       ariaHaspopup,
       ariaControls,
       className,
-      "data-cy": dataCy,
+      'data-cy': dataCy,
       type,
     },
     ref
@@ -44,9 +44,9 @@ const IconButton = React.forwardRef(
       </IconStyledButton.IconContainer>
     </IconStyledButton>
   )
-);
+)
 IconButton.defaultProps = {
-  iconFill: "#fff",
+  iconFill: '#fff',
   styleOptions: {
     fontColour: theme.palette.primary,
     backgroundColour: theme.palette.primaryMatch,
@@ -57,15 +57,15 @@ IconButton.defaultProps = {
   ariaExpanded: null,
   ariaHaspopup: null,
   ariaControls: null,
-  className: "",
+  className: '',
   iconSize: {
-    width: "100%",
-    height: "100%",
+    width: '100%',
+    height: '100%',
   },
-  "data-cy": null,
-  type: "button",
+  'data-cy': null,
+  type: 'button',
   onClick: null,
-};
+}
 IconButton.propTypes = {
   iconName: PropTypes.string.isRequired,
   iconFill: PropTypes.string,
@@ -85,7 +85,7 @@ IconButton.propTypes = {
   ariaHaspopup: PropTypes.bool,
   ariaControls: PropTypes.string,
   className: PropTypes.string,
-  "data-cy": PropTypes.string,
+  'data-cy': PropTypes.string,
   type: PropTypes.string,
-};
-export default IconButton;
+}
+export default IconButton

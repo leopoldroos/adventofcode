@@ -33,10 +33,6 @@ const DayPage = ({ day, year }) => {
       <a href={adventOfCodeLink} target="_blank">
         {adventOfCodeLink}
       </a>
-      <Title tagName="p">The year and day to solve:</Title>
-      <Description tagName="p">
-        {year} - {day}
-      </Description>
       <YearDay year={year} day={day} />
     </Layout>
   )

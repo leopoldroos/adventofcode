@@ -3,5 +3,6 @@
   "editor.formatOnSave": true,
   "workbench.colorCustomizations": {
     "activityBar.background": "#0090ff45"
-  }
+  },
+  "jest.debugMode": true
 }

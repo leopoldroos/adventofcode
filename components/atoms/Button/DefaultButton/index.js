@@ -1,13 +1,13 @@
-import React from "react";
-import PropTypes from "prop-types";
-import theme from "@/themes";
-import DefaultStyledButton from "./styles";
-import Text from "@/components/atoms/Text";
+import React from 'react'
+import PropTypes from 'prop-types'
+import Text from '@/components/atoms/Text'
+import theme from '@/components/themes'
+import DefaultStyledButton from './styles'
 
 const primaryStyleOptions = {
   fontColour: theme.palette.negativeLight.base,
   backgroundColour: theme.palette.primary,
-};
+}
 
 const DefaultButton = ({
   type,
@@ -21,12 +21,12 @@ const DefaultButton = ({
   onClick,
   onFocus,
   onBlur,
-  "data-cy": dataCy,
+  'data-cy': dataCy,
   textSize,
   textWeight,
   textEllipsis,
 }) => {
-  const options = primary ? primaryStyleOptions : styleOptions;
+  const options = primary ? primaryStyleOptions : styleOptions
   return (
     <DefaultStyledButton
       className={className}
@@ -53,10 +53,10 @@ const DefaultButton = ({
         </DefaultStyledButton.IconContainer>
       )}
     </DefaultStyledButton>
-  );
-};
+  )
+}
 DefaultButton.defaultProps = {
-  type: "button",
+  type: 'button',
   icon: null,
   primary: false,
   slim: false,
@@ -66,15 +66,15 @@ DefaultButton.defaultProps = {
     backgroundColourFocused: theme.palette.negativeGrey,
     borderColour: false,
   },
-  className: "",
+  className: '',
   onFocus: () => {},
   onBlur: () => {},
   disabled: false,
-  "data-cy": null,
-  textSize: "large",
-  textWeight: "400",
+  'data-cy': null,
+  textSize: 'large',
+  textWeight: '400',
   textEllipsis: null,
-};
+}
 DefaultButton.propTypes = {
   type: PropTypes.string,
   label: PropTypes.string.isRequired,
@@ -93,9 +93,9 @@ DefaultButton.propTypes = {
   primary: PropTypes.bool,
   slim: PropTypes.bool,
   disabled: PropTypes.bool,
-  "data-cy": PropTypes.string,
+  'data-cy': PropTypes.string,
   textSize: PropTypes.string,
   textWeight: PropTypes.string,
   textEllipsis: PropTypes.bool,
-};
-export default DefaultButton;
+}
+export default DefaultButton
