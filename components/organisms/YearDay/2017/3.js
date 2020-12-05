@@ -14,29 +14,24 @@ import Spiral from '@/helpers/Spiral'
 //   [20, 7, 8, 9, 10],
 //   [21, 22, 23, 24, 25],
 // ]
-export const testData = [24]
+export const testData = [24] // My data is: 325489
+
+export const prepareData = (data) => {
+  return parseInt(data[0], 10)
+}
 
 export const validate = (data) => {
   const theSpiral = new Spiral()
-  const {
-    spiral,
-    xIndexStored,
-    yIndexStored,
-    number,
-  } = theSpiral.generateSpiral(data, false)
-  const output = spiralMemory(spiral, xIndexStored, yIndexStored)
-  console.log({ spiral, xIndexStored, yIndexStored, number, output })
-  return number
+  const { spiral, xIndex, yIndex } = theSpiral.generateSpiral(data, false)
+  return spiralMemory(spiral, xIndex, yIndex)
 }
 export const validateTwo = (data) => {
   const theSpiral = new Spiral()
-  const {
-    spiral,
-    xIndexStored,
-    yIndexStored,
-    number,
-  } = theSpiral.generateSpiral(data, false)
-  const output = spiralMemory(value, spiral, xIndexStored, yIndexStored)
+  const { spiral, xIndex, yIndex, number } = theSpiral.generateSpiral(
+    data,
+    true
+  )
+  return number
 }
 
 const Description = styled(Text)``
@@ -47,13 +42,12 @@ const Day3 = () => {
   const [resultTwo, setResultTwo] = useState(null)
 
   const onRun = () => {
-    // const output = `${number} @${xIndexStored},${yIndexStored}`
-    setResultOne(validate(parseInt(inputData[0], 10)))
-    // setResultTwo(validateTwo(clone, true))
+    const preparedData = prepareData(inputData)
+    setResultOne(validate(preparedData))
+    setResultTwo(validateTwo(preparedData))
   }
 
-  const taskDescription = `What is the checksum for the spreadsheet in your puzzle input?
-  What is the sum of each row's result in your puzzle input?`
+  const taskDescription = `What is the first value written that is larger than your puzzle input? `
 
   return (
     <div>

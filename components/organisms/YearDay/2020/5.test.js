@@ -1,5 +1,5 @@
 import { testData, prepareData, validate, validateTwo } from './5'
-import { myData } from './5.json'
+import myData from './5.json'
 
 describe('day5', () => {
   it('testData should return SeatID 357', () => {

@@ -13,4 +13,10 @@ describe('day3', () => {
   it('validate 1024 should return 31', () => {
     expect(validate(1024)).toEqual(31)
   })
+  it('validate 325489 should return 31', () => {
+    expect(validate(325489)).toEqual(552)
+  })
+  it('validateTwo 325489 should return 330785', () => {
+    expect(validateTwo(325489)).toEqual(330785)
+  })
 })

@@ -8,16 +8,15 @@ const distribute = (index, banks) => {
   let wanderingIndex = index
   while (blocks > 0) {
     wanderingIndex++
-    banks[(wanderingIndex % banks.length)]++
+    banks[wanderingIndex % banks.length]++
     blocks--
   }
   return banks
 }
 
-let checksums = []
-const isCurrentBanksLooped = (banks) => {
+const isCurrentBanksLooped = (banks, checksums) => {
   let checksum = banks.slice(0) // clone
-  checksum = checksum.map(block => block.toString()).join()
+  checksum = checksum.map((block) => block.toString()).join()
   let loopIdentifiedAtIndex = checksums.indexOf(checksum)
   if (loopIdentifiedAtIndex !== -1) {
     return loopIdentifiedAtIndex
@@ -30,12 +29,13 @@ export const reallocation = (banks) => {
   let cycles = 0
   let loopIdentifiedAtIndex = false
   let index
-  isCurrentBanksLooped(banks) // Just to push the first banks-state to checksums
+  let checksums = []
+  isCurrentBanksLooped(banks, checksums) // Just to push the first banks-state to checksums
   while (loopIdentifiedAtIndex === false) {
     cycles++
     index = getIndexForBiggestBlock(banks)
     banks = distribute(index, banks)
-    loopIdentifiedAtIndex = isCurrentBanksLooped(banks)
+    loopIdentifiedAtIndex = isCurrentBanksLooped(banks, checksums)
   }
-  return {cycles, loopedBanks: banks, loopIdentifiedAtIndex}
+  return { cycles, loopedBanks: banks, loopIdentifiedAtIndex }
 }
