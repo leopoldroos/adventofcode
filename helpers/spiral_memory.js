@@ -1,4 +1,4 @@
-export const spiralMemory = (value, spiral, xIndexStored, yIndexStored) => {
+export const spiralMemory = (spiral, xIndexStored, yIndexStored) => {
   let numberOfRows = spiral.length
   let targetIndex = Math.floor(numberOfRows / 2)
 
