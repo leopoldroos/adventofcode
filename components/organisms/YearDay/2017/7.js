@@ -52,7 +52,8 @@ const Day7 = () => {
   const onRun = () => {
     const preparedData = prepareData(inputData)
     const tower = validate(preparedData)
-    setResultOne(tower)
+    console.log({ tower })
+    setResultOne(tower.name)
     setResultTwo(validateTwo(tower))
   }
 

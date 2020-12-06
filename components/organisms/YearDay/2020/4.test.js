@@ -1,4 +1,11 @@
-import { requiredProps, testData, prepareData, validate } from './4'
+import {
+  requiredProps,
+  testData,
+  prepareData,
+  validate,
+  validateTwo,
+} from './4'
+import myData from './4.json'
 
 describe('day2', () => {
   it('requiredProps is valid for four digits; at least 1920 and at most 2002', () => {
@@ -71,5 +78,13 @@ describe('day2', () => {
   it('validate passports should return 2 for testData', () => {
     const data = prepareData(testData)
     expect(validate(data)).toEqual(2)
+  })
+  it('validate myData should return ', () => {
+    const data = prepareData(myData)
+    expect(validate(data)).toEqual(219)
+  })
+  it('validateTwo myData should return ', () => {
+    const data = prepareData(myData)
+    expect(validateTwo(data)).toEqual(127)
   })
 })
