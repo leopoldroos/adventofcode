@@ -19,13 +19,14 @@ export const testData = [
   'jptl (61)',
   'ugml (68) -> gyxo, ebii, jptl',
   'gyxo (61)',
-  'cntj(57)',
+  'cntj (57)',
 ]
-export const prepareData = (data) => {
+export const prepareData = (programs) => {
   let programsInStruct = {}
   programs.forEach((program) => {
     const parts = program.split(' -> ')
     const nameAndWeight = parts[0].split(' ')
+    console.log({ programs, parts, nameAndWeight })
     let name = nameAndWeight[0]
     let weight = parseInt(nameAndWeight[1].replace(/\(|\)/g, ''), 10)
     let childNames = false
