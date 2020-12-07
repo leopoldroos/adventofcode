@@ -20,9 +20,11 @@ export const prepareData = (data, nrOfElements = 256) => {
   }
   return {
     listOfNumbers,
+    currentPosition: 0,
+    skipSize: 0,
     lengthsAsDec: data[0].split(',').map((inp) => parseInt(inp, 10)),
     lengthsAsHex: data[0].split(',').map((inp) => {
-      return 'TBD'
+      return charToAscii(inp).concat(17, 31, 73, 47, 23)
     }),
   }
 }
@@ -47,10 +49,8 @@ export const reversOrderLengthFromIndex = (list, index, length) => {
 }
 
 export const validate = (data) => {
-  let { listOfNumbers, lengthsAsDec } = data
+  let { listOfNumbers, lengthsAsDec, currentPosition, skipSize } = data
   const listLength = listOfNumbers.length
-  let currentPosition = 0
-  let skipSize = 0
   lengthsAsDec.forEach((length) => {
     listOfNumbers = reversOrderLengthFromIndex(
       listOfNumbers,
@@ -59,12 +59,37 @@ export const validate = (data) => {
     )
     currentPosition = (currentPosition + length + skipSize) % listLength
     skipSize++
-    console.log({ listOfNumbers, currentPosition })
   })
-  return { listOfNumbers }
+  return data // { listOfNumbers, lengthsAsDec, lengthsAsHex }
 }
 
-export const validateTwo = (data) => {}
+const validateHex = (data) => {
+  let { listOfNumbers, lengthsAsHex, currentPosition, skipSize } = data
+  const listLength = listOfNumbers.length
+  lengthsAsHex.forEach((length) => {
+    listOfNumbers = reversOrderLengthFromIndex(
+      listOfNumbers,
+      currentPosition,
+      length
+    )
+    currentPosition = (currentPosition + length + skipSize) % listLength
+    skipSize++
+  })
+  data = { listOfNumbers, lengthsAsHex, currentPosition, skipSize }
+  return data // { listOfNumbers, lengthsAsDec, lengthsAsHex }
+}
+
+export const validateTwo = (data) => {
+  // 64 runs of validateHex:
+  let i = 0
+  // 64
+  while (i < 2) {
+    data = validateHex(data)
+    i++
+  }
+  console.log(data)
+  return data
+}
 
 const Description = styled(Text)``
 
@@ -76,8 +101,12 @@ const Day10 = () => {
   const onRun = () => {
     const preparedData = prepareData(inputData)
     console.log({ preparedData })
-    const { listOfNumbers } = validate(preparedData)
+    const { listOfNumbers } = validate({ ...preparedData })
+    console.log({ listOfNumbers })
     setResultOne(listOfNumbers[0] * listOfNumbers[1])
+
+    console.log({ preparedData })
+    // const result = validateTwo(preparedData)
     // setResultTwo(maxValue)
   }
 
