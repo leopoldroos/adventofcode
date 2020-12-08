@@ -12,6 +12,7 @@
     "bin-to-decimal": "^1.1.1",
     "binary-machine": "^2.0.1",
     "char-to-ascii": "^1.0.0",
+    "dec-to-hex": "^2.0.0",
     "dotenv": "^8.2.0",
     "eventemitter3": "^4.0.7",
     "express": "^4.17.1",

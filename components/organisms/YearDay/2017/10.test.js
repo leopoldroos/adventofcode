@@ -4,6 +4,11 @@ import {
   validate,
   validateTwo,
   reversOrderLengthFromIndex,
+  denseHash,
+  xor,
+  generateZeros,
+  xorList,
+  decToHex,
 } from './10'
 
 describe('day10', () => {
@@ -51,5 +56,29 @@ describe('day10', () => {
     const data = prepareData(testData)
     const { listOfNumbers } = validate(data)
     expect(listOfNumbers[0] * listOfNumbers[1]).toEqual(46600)
+  })
+
+  it('generateZeros(3) => "000"', () => {
+    expect(generateZeros(3)).toEqual('000')
+  })
+  it('xor 10 01 => 11', () => {
+    expect(xor('10', '1')).toEqual('11')
+    expect(xor(10, 1)).toEqual('11')
+    expect(xor('10101', '11111')).toEqual('01010')
+  })
+  it('xorList [10 01 10] => 01', () => {
+    expect(xorList(['10', '01', '10'])).toEqual('01')
+    expect(xorList(['10', 1, '110'])).toEqual('101')
+  })
+
+  it('denseHash [65, 27, 9, 1, 4, 3, 40, 50, 91, 7, 6, 0, 2, 5, 68, 22] should return 64', () => {
+    expect(
+      denseHash([65, 27, 9, 1, 4, 3, 40, 50, 91, 7, 6, 0, 2, 5, 68, 22])
+    ).toEqual([64])
+  })
+  it('decToHex 64, 7, 255 should correspond to 40, 07, ff', () => {
+    expect(decToHex(64)).toEqual('40')
+    expect(decToHex(7)).toEqual('07')
+    expect(decToHex(255)).toEqual('ff')
   })
 })
