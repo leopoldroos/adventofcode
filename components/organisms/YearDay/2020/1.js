@@ -16,8 +16,10 @@ const Day1 = () => {
   const [resultTwo, setResultTwo] = useState(null)
 
   const onRun = () => {
-    setResultOne(findSumPairs(inputData, 2020))
-    setResultTwo(findSumThrees(inputData, 2020))
+    const res = findSumPairs(inputData, 2020)
+    setResultOne(res[0] * res[1])
+    const res2 = findSumThrees(inputData, 2020)
+    setResultTwo(res2[0] * res2[1] * res2[2])
   }
 
   const taskDescription = `In this list, the two entries that sum to 2020 are 1721 and 299. Multiplying them together produces 1721 * 299 = 514579, so the correct answer is 514579`

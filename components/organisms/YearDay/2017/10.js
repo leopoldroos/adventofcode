@@ -92,12 +92,10 @@ export const denseHash = (bits) => {
   let i = 0
   const dense = []
   while ((i + 1) * 16 <= bits.length) {
-    const section = bits.slice(i * 16, 16).map(convertToBinary)
-    console.log({ section, bits })
+    const section = bits.slice(i * 16, i * 16 + 16).map(convertToBinary)
     dense.push(xorList(section))
     i++
   }
-  console.log({ dense })
   return dense.map(convertToDecimal)
 }
 
@@ -164,18 +162,15 @@ export const validateTwo = (data) => {
   // 64 runs of validateHex:
   let i = 0
   // let { listOfNumbers, lengthsAsHex, currentPosition, skipSize } = data
-  while (i < 1) {
+  while (i < 64) {
     data = validateHex(data)
     // data.skipSize = 0
     i++
   }
   const sparse = data.listOfNumbers
-  console.log({ sparse })
-  // const dense = denseHash(sparse)
-  // const hashie = dense.map(decToHex)
-  // console.log({ sparse, dense, hashie })
-
-  // return hashie
+  const dense = denseHash(sparse)
+  const hashie = dense.map(decToHex)
+  return { sparse, dense, hashie: hashie.join('') }
 }
 
 const Description = styled(Text)``
@@ -189,11 +184,12 @@ const Day10 = () => {
     const preparedData = prepareData(inputData)
     console.log({ preparedData })
 
-    // const { listOfNumbers } = validate({ ...preparedData })
-    // console.log({ listOfNumbers })
-    // setResultOne(listOfNumbers[0] * listOfNumbers[1])
-    validateTwo(preparedData)
-    // setResultTwo(validateTwo(preparedData))
+    const { listOfNumbers } = validate({ ...preparedData })
+    console.log({ listOfNumbers })
+    setResultOne(listOfNumbers[0] * listOfNumbers[1])
+    const res = validateTwo(preparedData)
+    console.log(res)
+    setResultTwo(validateTwo(res.hashie))
   }
 
   const taskDescription = `However, you should instead use the standard list size of 256 (with values 0 to 255) and the sequence of lengths in your puzzle input. Once this process is complete, what is the result of multiplying the first two numbers in the list?`
@@ -204,7 +200,8 @@ const Day10 = () => {
         <InputArea onChange={setInputData} defaultValue={inputData}></InputArea>
       </p>
       <p>
-        Ej: 15232
+        Maybe: 23234babdc6afa036749cfa9b597de1b Ej: 15232,
+        5e795c7b80dfbe7a937a2df1be7e3658,
         <Description>{taskDescription}</Description>
       </p>
       <RunButton onClick={onRun} />

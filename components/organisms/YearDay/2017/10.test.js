@@ -81,4 +81,34 @@ describe('day10', () => {
     expect(decToHex(7)).toEqual('07')
     expect(decToHex(255)).toEqual('ff')
   })
+  it('dvalidateTwo of "AoC 2017" should return 32 length equal to 33efeb34ea91902bb2f59c9920caa6cd', () => {
+    const prepData = prepareData(['AoC 2017'])
+    const { hashie } = validateTwo(prepData)
+    expect(hashie.length).toEqual(32)
+    expect(hashie).toEqual('33efeb34ea91902bb2f59c9920caa6cd')
+  })
+  it('dvalidateTwo of "" should return 32 length equal to a2582a3a0e66e6e86e3812dcb672a272', () => {
+    const prepData = prepareData([''])
+    const { hashie } = validateTwo(prepData)
+    expect(hashie.length).toEqual(32)
+    expect(hashie).toEqual('a2582a3a0e66e6e86e3812dcb672a272')
+  })
+  it('dvalidateTwo of "1,2,3" should return 32 length equal to 3efbe78a8d82f29979031a4aa0b16a9d', () => {
+    const prepData = prepareData(['1,2,3'])
+    const { hashie } = validateTwo(prepData)
+    expect(hashie.length).toEqual(32)
+    expect(hashie).toEqual('3efbe78a8d82f29979031a4aa0b16a9d')
+  })
+  it('dvalidateTwo of "1,2,4" should return 32 length equal to 63960835bcdc130f0b66d7ff4f6a5a8e', () => {
+    const prepData = prepareData(['1,2,4'])
+    const { hashie } = validateTwo(prepData)
+    expect(hashie.length).toEqual(32)
+    expect(hashie).toEqual('63960835bcdc130f0b66d7ff4f6a5a8e')
+  })
+  it('dvalidateTwo of my/test data should return 32 length equal to 23234babdc6afa036749cfa9b597de1b', () => {
+    const prepData = prepareData(testData) // testData === my data
+    const { hashie } = validateTwo(prepData)
+    expect(hashie.length).toEqual(32)
+    expect(hashie).toEqual('23234babdc6afa036749cfa9b597de1b')
+  })
 })
