@@ -15,8 +15,10 @@ export const validate = (data, offset) => {
 }
 
 const Description = styled(Text)``
-
+const lol = 123
 const Day1 = () => {
+  const test = "qwe " + lol
+  console.error(test)
   const [inputData, setInputData] = useState(testData)
   const [resultOne, setResultOne] = useState(null)
   const [resultTwo, setResultTwo] = useState(null)

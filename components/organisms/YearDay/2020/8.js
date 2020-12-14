@@ -43,7 +43,7 @@ export const runOperation = (
       nextInstructionIndex += 1
       break
     default:
-      console.log('No mapped operation')
+      console.warn(`No mapped operation: ${operationName}`)
   }
   return { accumulator, nextInstructionIndex }
 }

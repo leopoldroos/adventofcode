@@ -5,18 +5,17 @@ import Text from '@/components/atoms/Text'
 import InputArea from '@/components/atoms/InputArea'
 import styled from 'styled-components'
 import charToAscii from 'char-to-ascii'
-import convertToBinary from 'binary-machine'
-import convertToDecimal from 'bin-to-decimal'
+import { toBinary, toDecimal } from '@/helpers/converters'
 
 export const testData = [
   '18,1,0,161,255,137,254,252,14,95,165,33,181,168,2,188',
 ]
 export const prepareData = (data, nrOfElements = 256) => {
-  let listOfNumbers = []
+  const listOfNumbers = []
   let i = 0
   while (i < nrOfElements) {
     listOfNumbers[i] = i
-    i++
+    i += 1
   }
   return {
     listOfNumbers,
@@ -34,19 +33,18 @@ export const reversOrderLengthFromIndex = (list, index, length) => {
   let reverseSlice
   if (index + length > list.length) {
     // Wrapping situation!
-    let wrapLength = index + length - list.length
+    const wrapLength = index + length - list.length
     reverseSlice = list.slice(index).concat(list.slice(0, wrapLength)).reverse()
     return reverseSlice
       .slice(length - wrapLength)
       .concat(list.slice(wrapLength, index))
       .concat(reverseSlice.slice(0, length - wrapLength))
-  } else {
-    reverseSlice = list.slice(index, index + length).reverse()
-    return list
-      .slice(0, index)
-      .concat(reverseSlice)
-      .concat(list.slice(index + length))
   }
+  reverseSlice = list.slice(index, index + length).reverse()
+  return list
+    .slice(0, index)
+    .concat(reverseSlice)
+    .concat(list.slice(index + length))
 }
 
 export const generateZeros = (nrOfZeros) => {
@@ -54,7 +52,7 @@ export const generateZeros = (nrOfZeros) => {
   let i = 0
   while (i < nrOfZeros) {
     zeros += '0'
-    i++
+    i += 1
   }
   return zeros
 }
@@ -83,7 +81,7 @@ export const xorList = (list) => {
   let xorResult = list[0]
   while (i < list.length) {
     xorResult = xor(xorResult, list[i])
-    i++
+    i += 1
   }
   return xorResult
 }
@@ -92,11 +90,11 @@ export const denseHash = (bits) => {
   let i = 0
   const dense = []
   while ((i + 1) * 16 <= bits.length) {
-    const section = bits.slice(i * 16, i * 16 + 16).map(convertToBinary)
+    const section = bits.slice(i * 16, i * 16 + 16).map(toBinary)
     dense.push(xorList(section))
-    i++
+    i += 1
   }
-  return dense.map(convertToDecimal)
+  return dense.map(toDecimal)
 }
 
 const add_pows = (base, dec, num) => {
@@ -161,10 +159,8 @@ const validateHex = (data) => {
 export const validateTwo = (data) => {
   // 64 runs of validateHex:
   let i = 0
-  // let { listOfNumbers, lengthsAsHex, currentPosition, skipSize } = data
   while (i < 64) {
     data = validateHex(data)
-    // data.skipSize = 0
     i++
   }
   const sparse = data.listOfNumbers
