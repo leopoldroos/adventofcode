@@ -1,5 +1,6 @@
 import { testData, prepareData, validate, validateTwo, getNewDirection, move } from './12'
 import myData from './12.json'
+import testData3 from './12.moredata.json'
 
 describe('day12', () => {
   it('getNewDirection', () => {
@@ -117,13 +118,17 @@ describe('day12', () => {
       distance: 25
     })
   })
+  it('validate testData3', () => {
+    const prepData = prepareData(testData3)
+    expect(validate(prepData).distance).toEqual(882)
+  })
   it('validate myData', () => {
     const prepData = prepareData(myData)
     expect(validate(prepData)).toEqual({
-      distance: 2379,
-      previousDirection: "N",
-      x: 1069,
-      y: -1310
+      distance: 1441,
+      previousDirection: "S",
+      x: 987,
+      y: 454
     })
   })
 
