@@ -13,17 +13,17 @@ const Container = styled.div`
 `;
 
 const ErrorToastContainer = () => {
-  const messages = useSelector((state) => state.errors.messages);
-  const dispatch = useDispatch();
+  // const messages = useSelector((state) => state.errors.messages);
+  // const dispatch = useDispatch();
   return (
     <Container>
-      {messages.map(({ id, text }) => (
+      {/* {messages.map(({ id, text }) => (
         <ErrorToast
           text={text}
           key={id}
           onClose={() => dispatch(removeErrorMessage(id))}
         />
-      ))}
+      ))} */}
     </Container>
   );
 };

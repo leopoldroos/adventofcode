@@ -1,26 +1,26 @@
-import React from 'react'
-import { useDispatch } from 'react-redux'
-import PropTypes from 'prop-types'
-import { addErrorMessage } from '@/store/actions/errors'
-import dynamic from 'next/dynamic'
+import React from "react";
+import { useDispatch } from "react-redux";
+import PropTypes from "prop-types";
+import { addErrorMessage } from "@/store/actions/errors";
+import dynamic from "next/dynamic";
 
 const YearDay = ({ day, year }) => {
-  const dispatch = useDispatch()
-  dispatch(addErrorMessage('test'))
+  // const dispatch = useDispatch()
+  // dispatch(addErrorMessage('test'))
 
-  let DynamicComponent
+  let DynamicComponent;
   try {
-    DynamicComponent = dynamic(() => import(`./${year}/${day}`))
+    DynamicComponent = dynamic(() => import(`./${year}/${day}`));
   } catch (e) {
-    console.log('....', e)
-    dispatch(addErrorMessage(e.message))
+    console.log("....", e);
+    // dispatch(addErrorMessage(e.message))
   }
 
-  return <DynamicComponent day={day} year={year} />
-}
+  return <DynamicComponent day={day} year={year} />;
+};
 
 YearDay.propTypes = {
   day: PropTypes.string.isRequired,
   year: PropTypes.string.isRequired,
-}
-export default YearDay
+};
+export default YearDay;

@@ -1,8 +1,7 @@
-import 'whatwg-fetch'
-import fetch from 'node-fetch'
+import fetch from "node-fetch";
 
 export const getAdventOfCodeTask = ({ day, year }) =>
-  fetch(`/api/adventOfCode?day=${day}&year=${year}`)
+  fetch(`/api/adventOfCode?day=${day}&year=${year}`);
 
 const url = {
   buildQuery: function (params) {
@@ -10,45 +9,45 @@ const url = {
       .map(
         (k) =>
           encodeURIComponent(k) +
-          '=' +
+          "=" +
           (params[k] !== undefined && params[k] !== null
             ? encodeURIComponent(params[k])
-            : '')
+            : ""),
       )
-      .join('&')
+      .join("&");
   },
-}
+};
 
 function sendRequest(method, baseUrl, path, options = {}) {
-  let u = `${baseUrl}${path}`
+  let u = `${baseUrl}${path}`;
   if (options.queryParams) {
     u +=
-      (u.indexOf('?') === -1 ? '?' : '&') + url.buildQuery(options.queryParams)
+      (u.indexOf("?") === -1 ? "?" : "&") + url.buildQuery(options.queryParams);
   }
   let fetchOptions = {
-    method: method || 'get',
+    method: method || "get",
     headers: {
-      Accept: 'application/json',
+      Accept: "application/json",
     },
-  }
+  };
 
-  if (fetchOptions.method !== 'GET' && fetchOptions.method !== 'DELETE') {
-    fetchOptions.body = options.body
+  if (fetchOptions.method !== "GET" && fetchOptions.method !== "DELETE") {
+    fetchOptions.body = options.body;
   }
   if (options.headers) {
-    Object.assign(fetchOptions.headers, options.headers)
+    Object.assign(fetchOptions.headers, options.headers);
   }
 
   if (options.mode) {
-    fetchOptions.mode = options.mode
+    fetchOptions.mode = options.mode;
   }
   if (options.credentials) {
-    fetchOptions.credentials = options.credentials
+    fetchOptions.credentials = options.credentials;
   }
 
   if (options.bearerToken) {
-    fetchOptions.headers['Authorization'] = `Bearer ${options.bearerToken}`
-    fetchOptions.mode = 'cors'
+    fetchOptions.headers["Authorization"] = `Bearer ${options.bearerToken}`;
+    fetchOptions.mode = "cors";
   }
 
   // const timerStart = (new Date()).getTime()
@@ -57,33 +56,33 @@ function sendRequest(method, baseUrl, path, options = {}) {
     .then((res) => {
       // const responseTime = `${((new Date()).getTime() - timerStart)}ms`
       // bugsnag.reportEvent(`HTTP-SendRequest: ${method} - ${res.status}`, res.url.split('/')[2], {status: res.status, responseTime: responseTime})
-      return res
+      return res;
     })
     .catch((err) => {
       // const responseTime = `${((new Date()).getTime() - timerStart)}ms`
       // bugsnag.reportIssue(`Can not ${method} ${baseUrl}`, err.message, {responseTime: responseTime, options: fetchOptions, baseUrl: baseUrl, path: path, url: u})
-      throw new Error('error_network_issue', err)
-    })
+      throw new Error("error_network_issue", err);
+    });
 }
 
 function get(baseUrl, path, options) {
-  return sendRequest('GET', baseUrl, path, options)
+  return sendRequest("GET", baseUrl, path, options);
 }
 function post(baseUrl, path, options) {
-  return sendRequest('POST', baseUrl, path, options)
+  return sendRequest("POST", baseUrl, path, options);
 }
 function put(baseUrl, path, options) {
-  return sendRequest('PUT', baseUrl, path, options)
+  return sendRequest("PUT", baseUrl, path, options);
 }
 function _delete(baseUrl, path, options) {
-  return sendRequest('DELETE', baseUrl, path, options)
+  return sendRequest("DELETE", baseUrl, path, options);
 }
 
 function json(res) {
   if (res && res.ok) {
-    return res.json()
+    return res.json();
   } else {
-    throw new Error('HTTP response is not json')
+    throw new Error("HTTP response is not json");
   }
 }
-export default { get, post, put, delete: _delete, json }
+export default { get, post, put, delete: _delete, json };

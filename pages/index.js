@@ -1,15 +1,36 @@
-import Head from 'next/head'
+import styled from "styled-components";
+import Head from "next/head";
+import Link from "next/link";
 
+const StyledLink = styled.a`
+  padding: 4px;
+`;
+const Year = styled.div``;
+
+const thisYear = new Date().getYear() + 1900;
 export default function Home() {
   return (
     <div className="container">
       <Head>
-        <title>Create Next App</title>
+        <title>Advent of code</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main>
         <h1 className="title">Advent of code!</h1>
+        {[...new Array(thisYear - 2019)].map((_, i) => {
+          const year = thisYear - i;
+          return (
+            <Year key={year}>
+              {year}:
+              {[...new Array(24)].map((_, day) => (
+                <Link key={day} href={`/${year}/${day + 1}`} passHref>
+                  <StyledLink>{day + 1}</StyledLink>
+                </Link>
+              ))}
+            </Year>
+          );
+        })}
       </main>
       <footer>Powered by Leo</footer>
 
@@ -72,5 +93,5 @@ export default function Home() {
         }
       `}</style>
     </div>
-  )
+  );
 }

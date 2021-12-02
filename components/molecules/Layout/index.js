@@ -1,6 +1,6 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import PropTypes from "prop-types";
+// import { useSelector } from "react-redux";
+// import PropTypes from "prop-types";
 import Head from "next/head";
 import styled, { css } from "styled-components";
 import Header from "@/components/organisms/Header";
@@ -19,9 +19,9 @@ const Main = styled.main`
 `;
 
 const Layout = ({ children, className }) => {
-  const { menuVisibility, navIsAnimating, headerHeight } = useSelector(
-    (state) => state.navigation
-  );
+  // const { menuVisibility, navIsAnimating, headerHeight } = useSelector(
+  //   (state) => state.navigation
+  // );
   const seo = "SEO yeay";
   return (
     <>
@@ -32,10 +32,10 @@ const Layout = ({ children, className }) => {
       )}
       <Header />
       <Main
-        className={className}
-        menuVisibility={menuVisibility}
-        navIsAnimating={navIsAnimating}
-        headerHeight={headerHeight}
+      // className={className}
+      // menuVisibility={menuVisibility}
+      // navIsAnimating={navIsAnimating}
+      // headerHeight={headerHeight}
       >
         {children}
       </Main>
@@ -44,12 +44,12 @@ const Layout = ({ children, className }) => {
   );
 };
 
-Layout.defaultProps = {
-  children: undefined,
-  className: "",
-};
-Layout.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-};
+// Layout.defaultProps = {
+//   children: undefined,
+//   className: "",
+// };
+// Layout.propTypes = {
+//   children: PropTypes.node,
+//   className: PropTypes.string,
+// };
 export default Layout;

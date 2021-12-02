@@ -1,0 +1,32 @@
+{
+  "env": {
+    "jest": true,
+    "browser": true,
+    "es6": true
+  },
+  "extends": ["airbnb", "eslint:recommended", "prettier"],
+  "parser": "babel-eslint",
+  "plugins": ["babel", "react", "prettier", "jest"],
+  "settings": {
+    "import/resolver": {
+      "alias": {
+        "map": [["@", "."]],
+        "extensions": [".js", ".jsx"]
+      }
+    }
+  },
+  "rules": {
+    "prettier/prettier": ["error"],
+    "no-console": ["error", { "allow": ["info", "warn", "error"] }],
+    "react/react-in-jsx-scope": "off",
+    "camelcase": "off",
+    "no-param-reassign": ["error", { "props": false }],
+    "react/jsx-props-no-spreading": "off",
+    "jest/no-focused-tests": "error",
+    "react/jsx-no-duplicate-props": [2, { "ignoreCase": false }],
+    "jsx-a11y/tabindex-no-positive": "off",
+    "import/no-named-as-default-member": "off",
+    "import/no-cycle": "off",
+    "no-plusplus": "off"
+  }
+}

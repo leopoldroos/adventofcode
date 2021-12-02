@@ -1,0 +1,49 @@
+{
+  "name": "learn-starter",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "test": "jest",
+    "dev": "next dev -p 1337",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "bin-to-decimal": "^1.1.1",
+    "binary-machine": "^2.0.1",
+    "char-to-ascii": "^1.0.0",
+    "dec-to-hex": "^2.0.0",
+    "dotenv": "^8.2.0",
+    "eventemitter3": "^4.0.7",
+    "express": "^4.17.1",
+    "mobile-detect": "^1.4.4",
+    "next": "^10.0.0",
+    "next-redux-wrapper": "^6.0.2",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "react-redux": "^7.2.2",
+    "react-responsive": "^8.2.0",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
+    "styled-components": "^5.2.1",
+    "whatwg-fetch": "^3.5.0"
+  },
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-eslint": "^10.1.0",
+    "babel-plugin-styled-components": "^1.12.0",
+    "eslint": "^7.15.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-prettier": "^7.0.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-babel": "^5.3.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jest": "^24.1.3",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.2.0",
+    "eslint-plugin-react": "^7.21.5",
+    "jest": "^26.6.3",
+    "jest-cli": "^26.6.3",
+    "prettier": "^2.2.1"
+  }
+}
