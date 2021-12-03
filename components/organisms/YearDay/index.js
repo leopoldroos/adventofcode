@@ -10,7 +10,7 @@ const YearDay = ({ day, year }) => {
 
   let DynamicComponent;
   try {
-    DynamicComponent = dynamic(() => import(`./${year}/${day}`));
+    DynamicComponent = dynamic(() => import(`./${year}/${day}/index.js`));
   } catch (e) {
     console.log("....", e);
     // dispatch(addErrorMessage(e.message))

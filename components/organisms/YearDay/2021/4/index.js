@@ -100,7 +100,7 @@ const Day = () => {
     // setResultTwo(sums[0])
   };
 
-  const taskDescription = `What is the power consumption of the submarine?`;
+  const taskDescription = `What do you get if you multiply your final horizontal position by your final depth?`;
 
   return (
     <div>
