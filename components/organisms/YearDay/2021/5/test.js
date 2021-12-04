@@ -5,7 +5,7 @@ import { validate, validate2, prepareData, prepareData2 } from "./index";
 const loadData = (fileName) =>
   fs.readFileSync(path.resolve(__dirname, "./", fileName), "utf8").split("\n");
 
-describe("day4", () => {
+describe("day 5", () => {
   it("validate testData", () => {
     const fileData = loadData("testData.txt");
     const { boards, numbers } = prepareData(fileData);
