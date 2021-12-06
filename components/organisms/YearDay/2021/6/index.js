@@ -3,124 +3,100 @@ import RunButton from "@/components/molecules/RunButton";
 import Results from "@/components/molecules/Results";
 import Text from "@/components/atoms/Text";
 import styled from "styled-components";
-import convertToDecimal from "bin-to-decimal";
 
 export const prepareData = (data) => {
-  let maxX = 0;
-  let maxY = 0;
-  const lines = data.map((line) => {
-    const [from, to] = line.split(" -> ");
-    const [x1, y1] = from.split(",").map((n) => parseInt(n, 10));
-    const [x2, y2] = to.split(",").map((n) => parseInt(n, 10));
-
-    maxX = Math.max(maxX, x1, x2);
-    maxY = Math.max(maxY, y1, y2);
-    return {
-      from: { x: x1, y: y1 },
-      to: { x: x2, y: y2 },
-    };
-  });
-
-  return { lines, maxX, maxY };
-};
-
-export const validate = ({ lines, maxX, maxY }) => {
-  let answer = 0;
-  let map = [...new Array(maxY + 1)].map((ys) =>
-    [...new Array(maxX + 1)].map((y) => 0),
-  );
-  const filteredLines = lines.filter(
-    (line) => line.from.x === line.to.x || line.from.y === line.to.y,
-  );
-  filteredLines.forEach((line) => {
-    if (line.from.x === line.to.x) {
-      let xPos = line.from.x;
-      let yDir = line.from.y < line.to.y ? 1 : -1;
-      let length = yDir * (line.to.y - line.from.y) + 1;
-      let i = 0;
-      while (i < length) {
-        let yPos = line.from.y + yDir * i;
-        map[yPos][xPos] += 1;
-        if (map[yPos][xPos] === 2) {
-          answer++;
-        }
-        i++;
-      }
-    } else {
-      let yPos = line.from.y;
-      let xDir = line.from.x < line.to.x ? 1 : -1;
-      let length = xDir * (line.to.x - line.from.x) + 1;
-      let i = 0;
-      while (i < length) {
-        let xPos = line.from.x + xDir * i;
-        map[yPos][xPos] += 1;
-        if (map[yPos][xPos] === 2) {
-          answer++;
-        }
-        i++;
-      }
-    }
-  });
+  const numbers = data[0].split(",").map((t) => parseInt(t, 10));
+  const fishes = numbers.map((t, i) => ({
+    timer: t,
+    number: i,
+    isParent: false,
+  }));
 
   return {
-    answer,
-    map,
-    filteredLines,
+    numbers,
+    fishes,
   };
 };
 
-export const validate2 = ({ lines, maxX, maxY }) => {
-  let answer = 0;
-  let map = [...new Array(maxY + 1)].map((ys) =>
-    [...new Array(maxX + 1)].map((y) => 0),
-  );
-  lines.forEach((line) => {
-    if (line.from.x === line.to.x) {
-      let xPos = line.from.x;
-      let yDir = line.from.y < line.to.y ? 1 : -1;
-      let length = yDir * (line.to.y - line.from.y) + 1;
-      let i = 0;
-      while (i < length) {
-        let yPos = line.from.y + yDir * i;
-        map[yPos][xPos] += 1;
-        if (map[yPos][xPos] === 2) {
-          answer++;
-        }
-        i++;
+export const addFishDay = ({ fish }) => {
+  let newFish = null;
+  if (fish.timer === 0) {
+    newFish = { timer: 8, isParent: false };
+    fish.timer = 6; // fish.isParent ? 6 : 8;
+    fish.isParent = true;
+  } else {
+    fish.timer -= 1;
+  }
+  return { fish, newFish };
+};
+
+export const validate = ({ fishes, days }) => {
+  let i = 0;
+  while (i < days) {
+    let newFishes = [];
+    fishes = fishes.map((fish) => {
+      const { fish: updatedFish, newFish } = addFishDay({ fish });
+      if (newFish) {
+        newFish.number = fishes.length + newFishes.length;
+        newFishes.push(newFish);
       }
-    } else if (line.from.y === line.to.y) {
-      let yPos = line.from.y;
-      let xDir = line.from.x < line.to.x ? 1 : -1;
-      let length = xDir * (line.to.x - line.from.x) + 1;
-      let i = 0;
-      while (i < length) {
-        let xPos = line.from.x + xDir * i;
-        map[yPos][xPos] += 1;
-        if (map[yPos][xPos] === 2) {
-          answer++;
-        }
-        i++;
-      }
-    } else {
-      let xDir = line.from.x < line.to.x ? 1 : -1;
-      let yDir = line.from.y < line.to.y ? 1 : -1;
-      let length = xDir * (line.to.x - line.from.x) + 1;
-      let i = 0;
-      while (i < length) {
-        let xPos = line.from.x + xDir * i;
-        let yPos = line.from.y + yDir * i;
-        map[yPos][xPos] += 1;
-        if (map[yPos][xPos] === 2) {
-          answer++;
-        }
-        i++;
-      }
+      return updatedFish;
+    });
+    if (newFishes.length > 0) {
+      fishes = fishes.concat(newFishes);
     }
-  });
-  console.log(map, lines);
+    i++;
+  }
+
   return {
-    answer,
-    map,
+    fishes,
+  };
+};
+
+export const validate2 = ({ numbers }) => {
+  let fishes = [];
+
+  numbers.forEach((num) => {
+    fishes.push({
+      total: 1,
+      counter: num,
+    });
+  });
+  let i = 0;
+  while (i < 256) {
+    fishes = fishes.map((fish) => {
+      fish.counter -= 1;
+      return fish;
+    });
+
+    let pushMoreFishes = fishes.filter((fish) => fish.counter < 0);
+    fishes = fishes.filter((fish) => fish.counter >= 0);
+
+    if (pushMoreFishes.length) {
+      let index = fishes.findIndex((obj) => obj.counter === 6);
+
+      pushMoreFishes.forEach((parentFish) => {
+        if (index > -1) {
+          fishes[index].total += parentFish.total;
+        } else {
+          fishes.push({
+            counter: 6,
+            total: parentFish.total,
+          });
+        }
+
+        fishes.push({
+          counter: 8,
+          total: parentFish.total,
+        });
+      });
+    }
+    i++;
+  }
+
+  let total = fishes.reduce((sum, fish) => sum + fish.total, 0);
+  return {
+    answer: total,
   };
 };
 
