@@ -13,7 +13,7 @@
     "binary-machine": "^2.0.1",
     "char-to-ascii": "^1.0.0",
     "eventemitter3": "^4.0.7",
-    "next": "^12.0.4",
+    "next": "^12.0.9",
     "next-redux-wrapper": "^7.0.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
